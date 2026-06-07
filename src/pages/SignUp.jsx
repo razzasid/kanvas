@@ -1,11 +1,8 @@
+import SignUpCard from "@/features/auth/components/SignUpCard";
 import React from "react";
 
 function SignUp() {
-  return (
-    <div>
-      <p>Sign Up</p>
-    </div>
-  );
+  return <SignUpCard />;
 }
 
 export default SignUp;
