@@ -4,6 +4,7 @@ import RootLayout from "../layouts/RootLayout";
 import SignIn from "../pages/SignIn";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
+import signInAction from "@/services/signInAction";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
       {
         path: "sign-in",
         element: <SignIn />,
+        action: signInAction,
       },
       {
         path: "sign-up",

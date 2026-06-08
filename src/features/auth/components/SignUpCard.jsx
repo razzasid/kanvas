@@ -13,6 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router";
 
 function SignUpCard() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(e.target);
+  };
   return (
     <Card className={"w-full h-full border-none shadow-none md:w-121.75"}>
       <CardHeader className={"items-center justify-center text-center p-7"}>
@@ -35,11 +39,10 @@ function SignUpCard() {
       </div>
 
       <CardContent className={"p-7"}>
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             required
             type={"text"}
-            value={""}
             onChange={() => {}}
             placeholder="Enter your name"
             disabled={false}
@@ -47,7 +50,6 @@ function SignUpCard() {
           <Input
             required
             type={"email"}
-            value={""}
             onChange={() => {}}
             placeholder="Enter email address"
             disabled={false}
@@ -55,7 +57,6 @@ function SignUpCard() {
           <Input
             required
             type={"password"}
-            value={""}
             onChange={() => {}}
             placeholder="Enter password"
             disabled={false}

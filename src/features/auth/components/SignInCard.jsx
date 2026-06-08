@@ -4,9 +4,23 @@ import { DottedSeparator } from "@/components/dotted-separator";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router";
+import { Form, Link, useActionData, useNavigation } from "react-router";
+import { useEffect, useState } from "react";
 
 function SignInCard() {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  const actionData = useActionData();
+
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (actionData?.errors) {
+      setErrors(actionData.errors);
+    }
+  }, [actionData]);
+
   return (
     <Card className={"w-full h-full border-none shadow-none md:w-121.75"}>
       <CardHeader
@@ -20,29 +34,45 @@ function SignInCard() {
       </div>
 
       <CardContent className={"p-7"}>
-        <form className="space-y-4">
+        <Form method="post" noValidate className="space-y-4">
           <Input
+            onChange={() =>
+              setErrors((prev) => ({
+                ...prev,
+                email: undefined,
+              }))
+            }
             required
-            type={"email"}
-            value={""}
-            onChange={() => {}}
+            name="email"
+            type="email"
             placeholder="Enter email address"
             disabled={false}
           />
+          {errors.email && (
+            <p className="text-red-600 ml-1">{errors.email}</p>
+          )}
           <Input
+            onChange={() =>
+              setErrors((prev) => ({
+                ...prev,
+                password: undefined,
+              }))
+            }
             required
-            type={"password"}
-            value={""}
-            onChange={() => {}}
+            name="password"
+            type="password"
             placeholder="Enter password"
             disabled={false}
             min={8}
             max={256}
           />
-          <Button className={"w-full"} size="lg" disabled={false}>
-            Login
+          {errors.password && (
+            <p className="text-red-600 ml-1">{errors.password}</p>
+          )}
+          <Button className={"w-full"} size="lg" disabled={isSubmitting}>
+            {isSubmitting ? "Logging in..." : "Login"}
           </Button>
-        </form>
+        </Form>
       </CardContent>
 
       <div className="px-7">
