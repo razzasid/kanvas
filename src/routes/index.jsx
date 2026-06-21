@@ -5,6 +5,7 @@ import SignIn from "../pages/SignIn";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
 import signInAction from "@/services/signInAction";
+import signUpAction from "@/services/signUpAction";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
       {
         path: "sign-up",
         element: <SignUp />,
+        action: signUpAction,
       },
     ],
   },

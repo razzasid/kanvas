@@ -10,13 +10,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router";
+import { Form, Link, useActionData } from "react-router";
+import { useEffect } from "react";
 
 function SignUpCard() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(e.target);
-  };
+  const actionData = useActionData();
+
   return (
     <Card className={"w-full h-full border-none shadow-none md:w-121.75"}>
       <CardHeader className={"items-center justify-center text-center p-7"}>
@@ -39,34 +38,49 @@ function SignUpCard() {
       </div>
 
       <CardContent className={"p-7"}>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <Form method="post" noValidate className="space-y-4">
           <Input
             required
+            name="name"
             type={"text"}
             onChange={() => {}}
             placeholder="Enter your name"
             disabled={false}
+            className={`${actionData?.errors?.name && "mb-1"}`}
           />
+          {actionData?.errors?.name && (
+            <p className="text-red-600 ">{actionData.errors.name[0]}</p>
+          )}
           <Input
             required
+            name="email"
             type={"email"}
             onChange={() => {}}
             placeholder="Enter email address"
             disabled={false}
+            className={`${actionData?.errors?.email && "mb-1"}`}
           />
+          {actionData?.errors?.email && (
+            <p className="text-red-600">{actionData.errors.email[0]}</p>
+          )}
           <Input
             required
+            name="password"
             type={"password"}
             onChange={() => {}}
             placeholder="Enter password"
             disabled={false}
             min={8}
             max={256}
+            className={`${actionData?.errors?.password && "mb-1"}`}
           />
+          {actionData?.errors?.password && (
+            <p className="text-red-600">{actionData.errors.password[0]}</p>
+          )}
           <Button className={"w-full"} size="lg" disabled={false}>
             Sign Up
           </Button>
-        </form>
+        </Form>
       </CardContent>
 
       <div className="px-7">
