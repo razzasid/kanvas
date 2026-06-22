@@ -11,10 +11,18 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Form, Link, useActionData } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function SignUpCard() {
   const actionData = useActionData();
+
+  const [errors, setErrors] = useState(actionData?.errors || {});
+
+  useEffect(() => {
+    if (actionData?.errors) {
+      setErrors(actionData.errors);
+    }
+  }, [actionData]);
 
   return (
     <Card className={"w-full h-full border-none shadow-none md:w-121.75"}>
@@ -43,39 +51,50 @@ function SignUpCard() {
             required
             name="name"
             type={"text"}
-            onChange={() => {}}
+            onChange={() => {
+              setErrors((prev) => ({
+                ...prev,
+                name: undefined,
+              }));
+            }}
             placeholder="Enter your name"
             disabled={false}
-            className={`${actionData?.errors?.name && "mb-1"}`}
+            className={`${errors?.name && "mb-1"}`}
           />
-          {actionData?.errors?.name && (
-            <p className="text-red-600 ">{actionData.errors.name[0]}</p>
-          )}
+          {errors?.name && <p className="text-red-600 ">{errors.name[0]}</p>}
           <Input
             required
             name="email"
             type={"email"}
-            onChange={() => {}}
+            onChange={() => {
+              setErrors((prev) => ({
+                ...prev,
+                email: undefined,
+              }));
+            }}
             placeholder="Enter email address"
             disabled={false}
-            className={`${actionData?.errors?.email && "mb-1"}`}
+            className={`${errors?.email && "mb-1"}`}
           />
-          {actionData?.errors?.email && (
-            <p className="text-red-600">{actionData.errors.email[0]}</p>
-          )}
+          {errors?.email && <p className="text-red-600">{errors.email[0]}</p>}
           <Input
             required
             name="password"
             type={"password"}
-            onChange={() => {}}
+            onChange={() => {
+              setErrors((prev) => ({
+                ...prev,
+                password: undefined,
+              }));
+            }}
             placeholder="Enter password"
             disabled={false}
             min={8}
             max={256}
-            className={`${actionData?.errors?.password && "mb-1"}`}
+            className={`${errors?.password && "mb-1"}`}
           />
-          {actionData?.errors?.password && (
-            <p className="text-red-600">{actionData.errors.password[0]}</p>
+          {errors?.password && (
+            <p className="text-red-600">{errors.password[0]}</p>
           )}
           <Button className={"w-full"} size="lg" disabled={false}>
             Sign Up

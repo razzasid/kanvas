@@ -1,0 +1,12 @@
+{
+  "name": "kanvas-backend",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.5",
+    "hono": "^4.12.26"
+  }
+}

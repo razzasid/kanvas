@@ -5,13 +5,16 @@ export default async function signUpAction({ request }) {
 
   const userData = Object.fromEntries(formData);
 
-  const User = z.object({
-    name: z.string(),
-    email: z.email("Invalid email"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+  const UserSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    email: z.string().nonempty("Email is required").email("Invalid email"),
+    password: z
+      .string()
+      .nonempty("Password is required")
+      .min(8, "Password must be at least 8 characters"),
   });
 
-  const result = User.safeParse(userData);
+  const result = UserSchema.safeParse(userData);
 
   console.log(result);
 
