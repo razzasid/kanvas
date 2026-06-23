@@ -1,32 +1,36 @@
+import * as z from "zod";
 import { redirect } from "react-router";
+
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000"
+
+const signInSchema = z.object({
+  email: z.string().trim().nonempty("Email is required").email("Invalid email"),
+  password: z.string().nonempty("Password is required").min(8, "Password must be at least 8 characters"),
+})
 
 export default async function SignInAction({ request }) {
   const formData = await request.formData();
-
   const data = Object.fromEntries(formData);
+  const result = signInSchema.safeParse(data);
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  console.log(data);
-
-  const errors = {};
-
-  if (!data.email) {
-    errors.email = "Email is required";
-  } else if (!emailRegex.test(data.email)) {
-    errors.email = "Please enter a valid email";
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+    };
   }
 
-  if (!data.password) {
-    errors.password = "Password is required";
-  } else if (data.password.length < 8) {
-    errors.password = "Password must be at least 8 characters";
+  const response = await fetch(`${API_BASE}/api/auth/sign-in`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(result.data),
+  });
+
+  const responseBody = await response.json().catch(() => null);
+  if (!response.ok) {
+    return {
+      errors: responseBody?.errors || { global: [responseBody?.message || "Unable to sign in"] },
+    };
   }
 
-  if (Object.keys(errors).length > 0) {
-    console.log(errors);
-    return { errors };
-  }
-
-  return null;
+  return redirect("/");
 }

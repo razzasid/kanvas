@@ -47,6 +47,7 @@ function SignUpCard() {
 
       <CardContent className={"p-7"}>
         <Form method="post" noValidate className="space-y-4">
+          {errors.global && <p className="text-red-600">{errors.global[0]}</p>}
           <Input
             required
             name="name"

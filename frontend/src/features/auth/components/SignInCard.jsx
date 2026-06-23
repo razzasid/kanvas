@@ -35,6 +35,7 @@ function SignInCard() {
 
       <CardContent className={"p-7"}>
         <Form method="post" noValidate className="space-y-4">
+          {errors.global && <p className="text-red-600">{errors.global[0]}</p>}
           <Input
             onChange={() =>
               setErrors((prev) => ({
@@ -47,9 +48,10 @@ function SignInCard() {
             type="email"
             placeholder="Enter email address"
             disabled={false}
+            className={`${errors?.email && "mb-1"}`}
           />
           {errors.email && (
-            <p className="text-red-600 ml-1">{errors.email}</p>
+            <p className="text-red-600 ml-1">{errors.email[0]}</p>
           )}
           <Input
             onChange={() =>
@@ -65,9 +67,10 @@ function SignInCard() {
             disabled={false}
             min={8}
             max={256}
+            className={`${errors?.password && "mb-1"}`}
           />
           {errors.password && (
-            <p className="text-red-600 ml-1">{errors.password}</p>
+            <p className="text-red-600 ml-1">{errors.password[0]}</p>
           )}
           <Button className={"w-full"} size="lg" disabled={isSubmitting}>
             {isSubmitting ? "Logging in..." : "Login"}
