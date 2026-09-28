@@ -10,6 +10,7 @@ function App() {
       <Button variant="muted">muted</Button>
       <Button variant="outline">outline</Button>
       <Button variant="teritary">teritary</Button>
+      <h1>Hello World</h1>
     </div>
   );
 }
